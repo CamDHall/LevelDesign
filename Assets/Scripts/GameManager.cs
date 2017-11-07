@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     public static GameManager me;
     public GameObject deathText;
+
+    public Text lives;
+
     private void Awake() {
         me = this;
     }
@@ -19,6 +23,11 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.R)) {
             SceneManager.LoadScene(0);
 
+        }
+
+        if(PlayerMovement.Instance != null)
+        {
+            lives.text = "Lives: " + PlayerMovement.Instance.health;
         }
 	}
 }

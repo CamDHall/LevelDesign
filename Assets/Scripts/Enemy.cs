@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour {
     public int health;
     public Rigidbody2D rb;
 
+    public float speed;
+
     // Use this for initialization
     void Awake()
     {
@@ -16,14 +18,7 @@ public class Enemy : MonoBehaviour {
     public void Death()
     {
         Destroy(gameObject);
-    }
-
-    private void Update()
-    {
-        if(health <= 0)
-        {
-            Death();
-        }
+        PlayerMovement.Instance.health++;
     }
 
     private void OnCollisionEnter2D(Collision2D coll)

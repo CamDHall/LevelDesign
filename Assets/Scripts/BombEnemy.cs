@@ -23,9 +23,14 @@ public class BombEnemy : Enemy {
 	void Update () {
         if (PlayerMovement.Instance != null)
         {
-            // Explode
-            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) < 2f)
+            if (health <= 0)
             {
+                Death();
+            }
+            // Explode
+            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) < 25f)
+            {
+                Debug.Log(transform.position);
                 transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one, Time.deltaTime);
             }
         }
@@ -35,17 +40,20 @@ public class BombEnemy : Enemy {
     {
         if (PlayerMovement.Instance != null)
         {
-            // Rotate
-            _angle += RotateSpeed * Time.deltaTime;
+            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) < 5f)
+            {
+                // Rotate
+                _angle += RotateSpeed * Time.deltaTime;
 
-            float stepAmount = (1f - Mathf.Cos(Time.time - startTime * Mathf.PI * 0.5f)) * Time.deltaTime;
+                float stepAmount = (1f - Mathf.Cos(Time.time - startTime * Mathf.PI * 0.5f)) * Time.deltaTime;
 
-            // Move centre closer to player
-            _centre = Vector2.Lerp(_centre, PlayerMovement.Instance.transform.position, stepAmount);
+                // Move centre closer to player
+                _centre = Vector2.Lerp(_centre, PlayerMovement.Instance.transform.position, stepAmount);
 
-            // Move the ball in a circle
-            var offset = new Vector2(Mathf.Sin(_angle), Mathf.Cos(_angle)) * Radius;
-            rb.MovePosition(_centre + offset);
+                // Move the ball in a circle
+                var offset = new Vector2(Mathf.Sin(_angle), Mathf.Cos(_angle)) * Radius;
+                rb.MovePosition(_centre + offset);
+            }
         }
     }
 }

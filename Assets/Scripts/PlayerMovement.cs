@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour {
     public static PlayerMovement Instance;
 
     Vector2 vel;
+
+    public int health;
+
     public float grav;
     public float thrust;
     public float rotSpd;
@@ -29,14 +32,18 @@ public class PlayerMovement : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space)) {
             Instantiate(bullet, transform.position + (transform.up * .2f), Quaternion.Euler(0,0, transform.eulerAngles.z + 90f));
         }
-
-
     }
 
     private void FixedUpdate() {
-        vel.y -= grav;
+        if (vel.y > -.2f)
+        {
+            vel.y -= grav;
+        }
         if (Input.GetKey(KeyCode.UpArrow)) {
-            vel += Geo.ToVect(transform.eulerAngles.z+90f) * thrust;
+            if (vel.y < 0.2f)
+            {
+                vel += Geo.ToVect(transform.eulerAngles.z + 90f) * thrust;
+            }
             pSys.Play();
             if (!aud.isPlaying) aud.Play();
         } else {
@@ -50,13 +57,19 @@ public class PlayerMovement : MonoBehaviour {
             transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + rotSpd);
         }
         rb.MovePosition((Vector2)transform.position + vel);
-
     }
 
 
     private void OnCollisionEnter2D(Collision2D coll) {
-        Instantiate(deathPart, transform.position, transform.rotation);
-        GameManager.me.deathText.SetActive(true);
-        Destroy(gameObject);
+        health--;
+        if (health < 0)
+        {
+            Instantiate(deathPart, transform.position, transform.rotation);
+            GameManager.me.deathText.SetActive(true);
+            Destroy(gameObject);
+        } else
+        {
+            vel = (-vel * .5f);
+        }
     }
 }

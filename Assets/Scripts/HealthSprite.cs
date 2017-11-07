@@ -16,9 +16,16 @@ public class HealthSprite : Enemy {
     }
 
     void Update () {
-	    if(PlayerMovement.Instance != null && Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) <= 2)
+        if (PlayerMovement.Instance != null)
         {
-            transform.localScale += (Vector3.one * (Time.deltaTime * 0.25f));
+            if(health <= 0)
+            {
+                Death();
+            }
+            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) <= 3)
+            {
+                transform.localScale += (Vector3.one * (Time.deltaTime * 0.5f));
+            }
         }
 	}
 
