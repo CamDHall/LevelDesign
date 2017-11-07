@@ -22,9 +22,9 @@ public class HealthSprite : Enemy {
             {
                 Death();
             }
-            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) <= 3)
+            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) <= 8)
             {
-                transform.localScale += (Vector3.one * (Time.deltaTime * 0.5f));
+                transform.localScale += (Vector3.one * (Time.deltaTime * 2));
             }
         }
 	}

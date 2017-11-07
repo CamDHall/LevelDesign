@@ -28,9 +28,8 @@ public class BombEnemy : Enemy {
                 Death();
             }
             // Explode
-            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) < 25f)
+            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) < 5f)
             {
-                Debug.Log(transform.position);
                 transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one, Time.deltaTime);
             }
         }
@@ -40,7 +39,7 @@ public class BombEnemy : Enemy {
     {
         if (PlayerMovement.Instance != null)
         {
-            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) < 5f)
+            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) < 15f)
             {
                 // Rotate
                 _angle += RotateSpeed * Time.deltaTime;

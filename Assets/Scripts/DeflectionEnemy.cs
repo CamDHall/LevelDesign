@@ -50,10 +50,24 @@ public class DeflectionEnemy : Enemy {
 
     void SpawnEnemy()
     {
-        int choice = Random.Range(0, 5);
+        int choice = Random.Range(0, 9);
 
         float x = Random.Range(-2, 2);
         Vector3 Pos = new Vector3(transform.position.x + x, transform.position.y + 0.5f, 0);
+
+        if(choice <= 2)
+        {
+            Instantiate(basicEnemy, Pos, Quaternion.identity);
+        } else if(choice <= 5)
+        {
+            Instantiate(growthEnemy, Pos, Quaternion.identity);
+        } else if(choice <= 7)
+        {
+            Instantiate(bombEnemy, Pos, Quaternion.identity);
+        } else
+        {
+            Instantiate(gameObject, Pos, Quaternion.identity);
+        }
 
         if(choice == 0)
         {
