@@ -12,11 +12,18 @@ public class BombEnemy : Enemy {
     private Vector2 _centre;
     private float _angle;
 
+    bool exploding = false;
+    float explosionTimer;
+    public ParticleSystem ps;
+
+    SpriteRenderer sp;
+
     // Use this for initialization
     void Start () {
         startTime = Time.time;
 
         _centre = transform.position;
+        sp = GetComponent<SpriteRenderer>();
     }
 	
 	// Update is called once per frame
@@ -28,9 +35,22 @@ public class BombEnemy : Enemy {
                 Death();
             }
             // Explode
-            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) < 5f)
+            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) < 2f && !exploding)
             {
-                transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one, Time.deltaTime);
+                explosionTimer = Time.time + 0.2f;
+                exploding = true;
+            }
+
+            if(exploding && explosionTimer > Time.time)
+            {
+                transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
+                sp.color += new Color(10, 10, 10);
+            }
+
+            if(exploding && explosionTimer < Time.time)
+            {
+                Instantiate(ps, transform.position, Quaternion.identity);
+                Destroy(gameObject);
             }
         }
 	}
@@ -39,7 +59,7 @@ public class BombEnemy : Enemy {
     {
         if (PlayerMovement.Instance != null)
         {
-            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) < 15f)
+            if (Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position) < 8f)
             {
                 // Rotate
                 _angle += RotateSpeed * Time.deltaTime;

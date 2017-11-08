@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour {
 	}
 
     private void OnCollisionEnter2D(Collision2D coll) {
+        Debug.Log(coll.gameObject);
         coll.gameObject.SendMessage("OnShot", null, SendMessageOptions.DontRequireReceiver);
         Instantiate(deathPart, transform.position, Quaternion.identity);
         Destroy(gameObject);
